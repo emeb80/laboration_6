@@ -29,7 +29,13 @@ form.addEventListener("submit", async function (event) {
   const response = await fetch(url);
   const data = await response.json();
   const firstRecipe = data.recipes[0];
-
+  //meddelande om inga recept hittas
+  if (firstRecipe===undefined){
+    recipe.textContent = "Inga recept hittades!";
+    return;
+  }
+//rensar gamla receptet
+recipe.replaceChildren();
   //lägger till h3 med receptnamn
   const heading = document.createElement("h3");
   heading.textContent = firstRecipe.name;
