@@ -40,6 +40,7 @@ form.addEventListener("submit", async function (event) {
   //variabler för information i receptet
   const servings = firstRecipe.servings;
   const prepTimeMinutes = firstRecipe.prepTimeMinutes;
+  const cookTimeMinutes = firstRecipe.cookTimeMinutes;
   const difficulty = firstRecipe.difficulty;
   const ingredients = firstRecipe.ingredients;
   const instructions = firstRecipe.instructions;
@@ -48,14 +49,25 @@ form.addEventListener("submit", async function (event) {
   const heading = document.createElement("h3");
   heading.textContent = firstRecipe.name;
   recipe.appendChild(heading);
-  //lägger till p-element för portioner, tillagningstid, svårighetsgrad
+
+//lägger till bilder
+const recipeImage = document.createElement ("img");
+recipeImage.src = firstRecipe.image;
+recipe.appendChild(recipeImage);
+
+
+  //lägger till p-element för portioner, förberedeöser, tillagningstid, svårighetsgrad
   const servingsP = document.createElement("p");
   servingsP.textContent = "Portioner: " + servings;
   recipe.appendChild(servingsP);
 
   const prepTimeMinutesP = document.createElement("p");
-  prepTimeMinutesP.textContent = "Tillagningstid: " + prepTimeMinutes + " min";
+  prepTimeMinutesP.textContent = "Förberedelser: " + prepTimeMinutes + " min";
   recipe.appendChild(prepTimeMinutesP);
+
+  const cookTimeMinutesP = document.createElement("p");
+  cookTimeMinutesP.textContent = "Tillagningstid: " + cookTimeMinutes + " min";
+  recipe.appendChild(cookTimeMinutesP);
 
   const difficultyP = document.createElement("p");
   difficultyP.textContent = "Svårighetsgrad: " + difficulty;
