@@ -1,7 +1,7 @@
 "use strict";
 /*
  * Laboration 6 - Receptsökaren
- * Namn: Eva Bergström 
+ * Namn: Eva Bergström
  */
 
 //hämtar formulär, sökfält och felmeddelande
@@ -11,8 +11,15 @@ const searchInput = document.getElementById("search");
 
 const errorMessage = document.getElementById("error");
 
-form.addEventListener("submit", function (event){
-    event.preventDefault();
-    const searchTerm = searchInput.value;
-    console.log(searchTerm);
+//sökfält, validering, felmeddelande, stoppar funktion vid fel
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  const searchTerm = searchInput.value.trim();
+  console.log(searchTerm);
+  if (searchTerm === "") {
+    errorMessage.textContent = "Fältet måste fyllas i!";
+    return;
+  } else {
+    errorMessage.textContent = "";
+  }
 });
