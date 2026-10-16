@@ -105,27 +105,33 @@ async function fetchRecipe(searchTerm) {
 
   return firstRecipe;
 }
-
-form.addEventListener("submit", async function (event) {
-  event.preventDefault();
-  const searchTerm = searchInput.value.trim();
-
+//funktion för validering
+function validateSearchTerm(searchTerm) {
   if (searchTerm === "") {
     errorMessage.textContent = "Fältet måste fyllas i!";
-    return;
-  } else {
-    errorMessage.textContent = "";
+    return false;
   }
-  //sökord matchas med url+väljer ut recept 1 i arrayen+
+  errorMessage.textContent = "";
+  return true;
+}
+//händelsehanterare vid skicka sökning
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  //rensar meddelande knutit till receptsökning
+  message.textContent = "";
+  const searchTerm = searchInput.value.trim();
+
+  if (!validateSearchTerm(searchTerm)) {
+    return;
+  }
 
   let firstRecipe;
-  //rensar felmeddelande
-  message.textContent = "";
+
   //hanterar vad som händer vid ev fel
   try {
     firstRecipe = await fetchRecipe(searchTerm);
   } catch (error) {
-    message.textContent = "Objektet kunde ej hämtas";
+    message.textContent = "Receptet kunde ej hämtas. Försök igen senare.";
     recipe.replaceChildren();
     console.error(error);
     return;
