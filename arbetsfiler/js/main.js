@@ -28,25 +28,36 @@ form.addEventListener("submit", async function (event) {
   }
   //sökord matchas med url+väljer ut recept 1 i arrayen+
   const url = "https://dummyjson.com/recipes/search?q=" + searchTerm;
-  
-  //hanterar fel vid laddning av API
-  let firstRecipe = data.recipes [0]
+  let firstRecipe;
+  //rensar felmeddelande
+  message.textContent = "";
+  //hanterar vad som händer vid ev fel
   try{
   const response = await fetch(url);
+  //avbryer funktionen vid fel
+  if(!response.ok) {
+    throw new Error ("Fel vid hämtning av recept");
+  }
   const data = await response.json();
-  const firstRecipe = data.recipes[0];
+  firstRecipe = data.recipes[0];
 }
+//felmeddlenade på skärm och i console
 catch (error){
     message.textContent = "Objektet kunde ej hämtas";
+    recipe.replaceChildren();
+    console.error(error);
+    return;
 }
+
+//rensar gamla receptet
+  recipe.replaceChildren();
+
   //meddelande om inga recept hittas
   if (firstRecipe === undefined) {
     recipe.textContent = "Inga recept hittades!";
     return;
   }
-  //rensar gamla receptet
-  recipe.replaceChildren();
-
+  
   //variabler för information i receptet
   const servings = firstRecipe.servings;
   const prepTimeMinutes = firstRecipe.prepTimeMinutes;
