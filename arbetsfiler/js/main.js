@@ -50,11 +50,11 @@ form.addEventListener("submit", async function (event) {
   heading.textContent = firstRecipe.name;
   recipe.appendChild(heading);
 
-//lägger till bilder
-const recipeImage = document.createElement ("img");
-recipeImage.src = firstRecipe.image;
-recipe.appendChild(recipeImage);
-
+  //lägger till bilder
+  const recipeImage = document.createElement("img");
+  recipeImage.src = firstRecipe.image;
+  recipeImage.alt = firstRecipe.name;
+  recipe.appendChild(recipeImage);
 
   //lägger till p-element för portioner, förberedeöser, tillagningstid, svårighetsgrad
   const servingsP = document.createElement("p");
@@ -82,12 +82,11 @@ recipe.appendChild(recipeImage);
   }
   recipe.appendChild(ingredientsUl);
 
-
   //Lägger till sorterad lista för instruktioner
-  const instructionsOl = document.createElement ("ol");
-  for (let i= 0; i <instructions.length; i++){
-    const instructionsItem = document.createElement ("li");
-    instructionsItem.textContent = instructions [i];
+  const instructionsOl = document.createElement("ol");
+  for (let i = 0; i < instructions.length; i++) {
+    const instructionsItem = document.createElement("li");
+    instructionsItem.textContent = instructions[i];
     instructionsOl.appendChild(instructionsItem);
   }
   recipe.appendChild(instructionsOl);
