@@ -13,6 +13,8 @@ const errorMessage = document.getElementById("error");
 
 const recipe = document.getElementById("recipe");
 
+const message = document.getElementById("message")
+
 //sökfält, validering, felmeddelande, stoppar funktion vid fel
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -26,9 +28,17 @@ form.addEventListener("submit", async function (event) {
   }
   //sökord matchas med url+väljer ut recept 1 i arrayen+
   const url = "https://dummyjson.com/recipes/search?q=" + searchTerm;
+  
+  //hanterar fel vid laddning av API
+  let firstRecipe = data.recipes [0]
+  try{
   const response = await fetch(url);
   const data = await response.json();
   const firstRecipe = data.recipes[0];
+}
+catch (error){
+    message.textContent = "Objektet kunde ej hämtas";
+}
   //meddelande om inga recept hittas
   if (firstRecipe === undefined) {
     recipe.textContent = "Inga recept hittades!";
@@ -45,57 +55,71 @@ form.addEventListener("submit", async function (event) {
   const ingredients = firstRecipe.ingredients;
   const instructions = firstRecipe.instructions;
 
+  //behållare för recept
+  const article = document.createElement ("article");
   //lägger till h3 med receptnamn
   const heading = document.createElement("h3");
   heading.textContent = firstRecipe.name;
-  recipe.appendChild(heading);
+  article.appendChild(heading);
 
   //lägger till bilder
   const recipeImage = document.createElement("img");
   recipeImage.src = firstRecipe.image;
   recipeImage.alt = firstRecipe.name;
-  recipe.appendChild(recipeImage);
+  article.appendChild(recipeImage);
 
-  //lägger till p-element för portioner, förberedeöser, tillagningstid, svårighetsgrad
+  //skapar behållare för recept-info
+  const recipeInfo = document.createElement("div");
+  recipeInfo.className = "recipe-info";
+
+  //lägger till p-element för portioner, förberedelser, tillagningstid, svårighetsgrad
   const servingsP = document.createElement("p");
   servingsP.textContent = "Portioner: " + servings;
-  recipe.appendChild(servingsP);
+  recipeInfo.appendChild(servingsP);
 
   const prepTimeMinutesP = document.createElement("p");
   prepTimeMinutesP.textContent = "Förberedelser: " + prepTimeMinutes + " min";
-  recipe.appendChild(prepTimeMinutesP);
+  recipeInfo.appendChild(prepTimeMinutesP);
 
   const cookTimeMinutesP = document.createElement("p");
   cookTimeMinutesP.textContent = "Tillagningstid: " + cookTimeMinutes + " min";
-  recipe.appendChild(cookTimeMinutesP);
+  recipeInfo.appendChild(cookTimeMinutesP);
 
   const difficultyP = document.createElement("p");
   difficultyP.textContent = "Svårighetsgrad: " + difficulty;
-  recipe.appendChild(difficultyP);
+  recipeInfo.appendChild(difficultyP);
+
+//lägger till behållaren till behållare för recpet
+  article.appendChild(recipeInfo);
 
   //Lägger till osorterad lista för ingredienser
   const ingredientHeading = document.createElement ("h4");
   ingredientHeading.textContent = "Ingredienser";
-  recipe.appendChild(ingredientHeading);
+  article.appendChild(ingredientHeading);
+  
   const ingredientsUl = document.createElement("ul");
   for (let i = 0; i < ingredients.length; i++) {
+    
     const ingredientsItem = document.createElement("li");
     ingredientsItem.textContent = ingredients[i];
     ingredientsUl.appendChild(ingredientsItem);
   }
-  recipe.appendChild(ingredientsUl);
+  article.appendChild(ingredientsUl);
 
   //Lägger till sorterad lista för instruktioner
   const instructionHeading = document.createElement ("h4");
   instructionHeading.textContent = "Gör så här";
-  recipe.appendChild(instructionHeading);
+  article.appendChild(instructionHeading);
+  
   const instructionsOl = document.createElement("ol");
   for (let i = 0; i < instructions.length; i++) {
+    
     const instructionsItem = document.createElement("li");
     instructionsItem.textContent = instructions[i];
     instructionsOl.appendChild(instructionsItem);
   }
-  recipe.appendChild(instructionsOl);
+  article.appendChild(instructionsOl);
+  recipe.appendChild(article);
 });
 
 //
