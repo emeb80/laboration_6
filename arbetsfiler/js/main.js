@@ -74,6 +74,9 @@ form.addEventListener("submit", async function (event) {
   recipe.appendChild(difficultyP);
 
   //Lägger till osorterad lista för ingredienser
+  const ingredientHeading = document.createElement ("h4");
+  ingredientHeading.textContent = "Ingredienser";
+  recipe.appendChild(ingredientHeading);
   const ingredientsUl = document.createElement("ul");
   for (let i = 0; i < ingredients.length; i++) {
     const ingredientsItem = document.createElement("li");
@@ -83,6 +86,9 @@ form.addEventListener("submit", async function (event) {
   recipe.appendChild(ingredientsUl);
 
   //Lägger till sorterad lista för instruktioner
+  const instructionHeading = document.createElement ("h4");
+  instructionHeading.textContent = "Gör så här";
+  recipe.appendChild(instructionHeading);
   const instructionsOl = document.createElement("ol");
   for (let i = 0; i < instructions.length; i++) {
     const instructionsItem = document.createElement("li");
