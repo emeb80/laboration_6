@@ -142,7 +142,7 @@ form.addEventListener("submit", async function (event) {
 
   //meddelande om inga recept hittas
   if (firstRecipe === undefined) {
-    recipe.textContent = "Inga recept hittades!";
+    recipe.textContent = "Inga recept hittades. Försök med annan sökfras!";
     return;
   }
   displayRecipe(firstRecipe);
